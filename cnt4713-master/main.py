@@ -5,7 +5,7 @@ from camera import staticVideo
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
 
-@app.route('/', methods=['POST'])
+@app.route('/index', methods=['GET','POST'])
 def index(): 
     if request.method == 'POST':
         session.pop('user_id', None)
