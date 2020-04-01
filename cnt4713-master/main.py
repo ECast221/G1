@@ -34,10 +34,6 @@ def video_feed():
     return Response(gen(VideoCamera()),
                 mimetype='multipart/x-mixed-replace; boundary=frame')
 
-@app.route("/static_video")
-def static_video():
-    return render_template("static_video.html")
-
 class User:
     def __init__(self, id, username, password):
         self.id = id
