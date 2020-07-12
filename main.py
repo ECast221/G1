@@ -53,4 +53,4 @@ def gen(camera):
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
