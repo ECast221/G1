@@ -33,7 +33,6 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
-    return '' # Delete this to run camera locally
     return Response(gen(VideoCamera()),
                 mimetype='multipart/x-mixed-replace; boundary=frame')
 
