@@ -11,12 +11,14 @@ def index():
         session.pop('user_id', None)
         username = request.form['username']
         password = request.form['password']
-        
-        user = [x for x in users if x.username == username][0]
-        if user and user.password == password:
-            session['user_id'] = user.id
-            return render_template('video.html')
-        return render_template('index.html')
+
+        try:
+            user = [x for x in users if x.username == username][0]
+            if user and user.password == password:
+                session['user_id'] = user.id
+                return render_template('video.html')
+        except IndexError:
+            return render_template('index.html')
     return render_template('index.html')
 
 
