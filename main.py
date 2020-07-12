@@ -1,8 +1,27 @@
 from flask import *
 from camera import VideoCamera
+import pickle, socket, struct
+
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
+
+HOST = '0.0.0.0'
+PORT = 8089
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+print('Socket created')
+
+
+s.bind((HOST, PORT))
+print('Socket bind complete')
+s.listen(10)
+print('Socket now listening')
+
+conn, addr = s.accept()
+
+data = b''
+payload_size = struct.calcsize("L")  # CHANGED
 
 
 @app.route('/', methods=['GET','POST'])
