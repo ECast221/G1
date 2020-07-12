@@ -1,5 +1,5 @@
 from flask import *
-# from camera import VideoCamera
+from camera import VideoCamera
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
