@@ -1,11 +1,11 @@
 from flask import Flask, render_template, Response, redirect, request, session, url_for, g
-from camera import VideoCamera
+#from camera import VideoCamera
 from camera import staticVideo
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
 
-@app.route('/index', methods=['GET','POST'])
+@app.route('/', methods=['GET','POST'])
 def index(): 
     if request.method == 'POST':
         session.pop('user_id', None)
@@ -31,8 +31,9 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(VideoCamera()),
-                mimetype='multipart/x-mixed-replace; boundary=frame')
+    return ''
+    # return Response(gen(VideoCamera()),
+    #             mimetype='multipart/x-mixed-replace; boundary=frame')
 
 class User:
     def __init__(self, id, username, password):
@@ -46,11 +47,11 @@ class User:
 users = []
 users.append(User(id=1, username='isabel', password='password'))
 
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+# def gen(camera):
+#     while True:
+#         frame = camera.get_frame()
+#         yield (b'--frame\r\n'
+#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
 
 if __name__ == '__main__':
     app.run()
