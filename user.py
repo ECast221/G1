@@ -18,3 +18,4 @@ class User:
         return f'<User: {self.username}>'
 
 users = []
+users.append(User(username='admin', password='pass'))

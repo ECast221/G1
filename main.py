@@ -45,7 +45,7 @@ class User:
         return f'<User: {self.username}>'
 
 users = []
-users.append(User(id=1, username='isabel', password='password'))
+users.append(User(id=1, username='admin', password='pass'))
 
 # def gen(camera):
 #     while True:
