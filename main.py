@@ -1,6 +1,5 @@
-from flask import Flask, render_template, Response, redirect, request, session, url_for, g
-#from camera import VideoCamera
-# from camera import staticVideo
+from flask import *
+from camera import VideoCamera
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
@@ -33,9 +32,10 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
-    return ''
-    # return Response(gen(VideoCamera()),
-    #             mimetype='multipart/x-mixed-replace; boundary=frame')
+    return '' # Delete this to run camera locally
+    return Response(gen(VideoCamera()),
+                mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 class User:
     def __init__(self, id, username, password):
@@ -46,14 +46,16 @@ class User:
     def __repr__(self):
         return f'<User: {self.username}>'
 
-users = []
-users.append(User(id=1, username='admin', password='pass'))
 
-# def gen(camera):
-#     while True:
-#         frame = camera.get_frame()
-#         yield (b'--frame\r\n'
-#                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+users = [User(id=1, username='admin', password='pass')]
+
+
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
 
 if __name__ == '__main__':
     app.run()
