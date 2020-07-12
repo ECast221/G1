@@ -31,6 +31,7 @@ def before_request():
         g.user = user
 
 
+
 @app.route('/video_feed')
 def video_feed():
     return Response(gen(VideoCamera()),
