@@ -1,6 +1,6 @@
 from flask import Flask, render_template, Response, redirect, request, session, url_for, g
 #from camera import VideoCamera
-from camera import staticVideo
+# from camera import staticVideo
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
