@@ -1,0 +1,29 @@
+<html>
+  <head>
+     <title>Video Streams</title>
+     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/style.css') }}">
+  </head>
+  <body class="bg2 d-flex justify-content-center">
+       <div class="div-large">
+        <div>
+            <h2 class="d-flex justify-content-center">Live Video</h2>
+            <hr/>
+            <img class="center" src="{{ url_for('video_feed')}}" width="500"
+                 height="350" alt="No stream connected" controls>
+        </div>
+        <div class="mt-2">
+          <h2 class="d-flex justify-content-center">Statically Hosted Videos</h2>
+          <hr/>
+          <span class="d-flex justify-content-center">
+            <video class="m-1" width="500" controls>
+              <source src={{url_for('static', filename="placeholder_1.mp4") }} type="video/mp4">
+                </video>
+                <video class="m-1" width="500" controls>
+              <source src={{url_for('static', filename="placeholder_2.mp4") }} type="video/mp4">
+            </video>
+          </span>
+        </div>
+       </div>
+  </body>
+</html>

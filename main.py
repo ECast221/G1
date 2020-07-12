@@ -6,7 +6,7 @@ app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
 
 @app.route('/', methods=['GET','POST'])
-def index(): 
+def index():
     if request.method == 'POST':
         session.pop('user_id', None)
         username = request.form['username']
@@ -16,7 +16,7 @@ def index():
             user = [x for x in users if x.username == username][0]
             if user and user.password == password:
                 session['user_id'] = user.id
-                return render_template('video.html')
+                return render_template('streams.html')
         except IndexError:
             return render_template('index.html')
     return render_template('index.html')
@@ -28,7 +28,7 @@ def before_request():
 
     if 'user_id' in session:
         user = [x for x in users if x.id == session['user_id']][0]
-        g.user = user    
+        g.user = user
 
 
 @app.route('/video_feed')
