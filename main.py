@@ -1,12 +1,13 @@
 from flask import *
 from camera import VideoCamera
+import cv2
 
 import pickle, socket, struct, threading
 
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
-
+videoFrame = None
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -26,6 +27,7 @@ def index():
 
 
 def socket_listener():
+    global videoFrame
     HOST = '0.0.0.0'
     PORT = 8089
     while True:
@@ -63,7 +65,9 @@ def socket_listener():
 
                     # Extract frame
                     frame = pickle.loads(frame_data)
-
+                    # cv2.imshow('frame', frame)
+                    # cv2.waitKey(1)
+                    # videoFrame = cv2.imencode('.jpg', frame)
                 except socket.error:
                     s.close()
                     connected = False
@@ -80,8 +84,11 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(VideoCamera()),
+    # if videoFrame is not None:
+        return Response(gen(VideoCamera()),
                 mimetype='multipart/x-mixed-replace; boundary=frame')
+    # else:
+    #     return ''
 
 
 class User:
