@@ -28,19 +28,46 @@ def index():
 def socket_listener():
     HOST = '0.0.0.0'
     PORT = 8089
+    while True:
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        print('Socket created')
+        s.bind((HOST, PORT))
+        print('Socket bind complete')
+        connected = False
+        s.listen(10)
+        print('Socket now listening')
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print('Socket created')
+        conn, addr = s.accept()
+        with conn:
+            connected = True
+            print('Connected by', addr)
+            data = b''
+            payload_size = struct.calcsize("L")  # CHANGED
 
-    s.bind((HOST, PORT))
-    print('Socket bind complete')
-    s.listen(10)
-    print('Socket now listening')
+            while connected:
+                try:
+                    # Retrieve message size
+                    while len(data) < payload_size:
+                        data += conn.recv(4096)
 
-    conn, addr = s.accept()
+                    packed_msg_size = data[:payload_size]
+                    data = data[payload_size:]
+                    msg_size = struct.unpack("L", packed_msg_size)[0]  # CHANGED
 
-    data = b''
-    payload_size = struct.calcsize("L")  # CHANGED
+                    # Retrieve all data based on message size
+                    while len(data) < msg_size:
+                        data += conn.recv(4096)
+
+                    frame_data = data[:msg_size]
+                    data = data[msg_size:]
+
+                    # Extract frame
+                    frame = pickle.loads(frame_data)
+
+                except socket.error:
+                    s.close()
+                    connected = False
+                    print("client disconnected")
 
 @app.before_request
 def before_request():
