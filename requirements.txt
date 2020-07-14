@@ -1,6 +1,7 @@
 cffi==1.14.0
 click==7.1.2
 Flask==1.1.2
+Flask-SocketIO==4.3.1
 gevent==20.6.2
 gevent-websocket==0.10.1
 greenlet==0.4.16
@@ -12,6 +13,9 @@ numpy==1.19.0
 opencv-contrib-python==4.3.0.36
 opencv-python==4.3.0.36
 pycparser==2.20
+python-engineio==3.13.1
+python-socketio==4.6.0
+six==1.15.0
 Werkzeug==1.0.1
 zope.event==4.4
 zope.interface==5.1.0
