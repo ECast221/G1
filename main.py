@@ -1,4 +1,4 @@
-from flask import Flask, request, session, render_template, g, Response
+from flask import Flask, request, session, render_template, g
 from camera import VideoCamera
 import cv2
 import os
@@ -48,43 +48,33 @@ def socket_listener():
             print('Connected by', addr)
             data = b''
             payload_size = struct.calcsize("L")  # CHANGED
-            data += conn.recv(4096)
-            packed_msg_size = data[:payload_size]
-            data = data[payload_size:]
-            msg_size = struct.unpack("L", packed_msg_size)[0]  # CHANGED
-            data += conn.recv(4096)
-            frame_data = data[:msg_size]
-            data = data[msg_size:]
-            # Extract frame
-            frame = pickle.loads(frame_data)
-            ret, jpeg = cv2.imencode('.jpg', frame)
-            videoFrame = jpeg.tobytes()
 
-            # while connected:
-            #     try:
-            #         # Retrieve message size
-            #         while len(data) < payload_size:
-            #             data += conn.recv(4096)
-            #
-            #         packed_msg_size = data[:payload_size]
-            #         data = data[payload_size:]
-            #         msg_size = struct.unpack("L", packed_msg_size)[0]  # CHANGED
-            #
-            #         # Retrieve all data based on message size
-            #         while len(data) < msg_size:
-            #             data += conn.recv(4096)
-            #
-            #         frame_data = data[:msg_size]
-            #         data = data[msg_size:]
-            #
-            #         # Extract frame
-            #         frame = pickle.loads(frame_data)
-            #         ret, jpeg = cv2.imencode('.jpg', frame)
-            #         videoFrame = jpeg.tobytes()
-            #     except socket.error:
-            #         connected = False
-            #         videoFrame = backupCam.get_frame()
-            #         print("client disconnected")
+
+            while connected:
+                try:
+                    # Retrieve message size
+                    while len(data) < payload_size:
+                        data += conn.recv(8192)
+
+                    packed_msg_size = data[:payload_size]
+                    data = data[payload_size:]
+                    msg_size = struct.unpack("L", packed_msg_size)[0]  # CHANGED
+
+                    # Retrieve all data based on message size
+                    while len(data) < msg_size:
+                        data += conn.recv(8192)
+
+                    frame_data = data[:msg_size]
+                    data = data[msg_size:]
+
+                    # Extract frame
+                    frame = pickle.loads(frame_data)
+                    ret, jpeg = cv2.imencode('.jpg', frame)
+                    videoFrame = jpeg.tobytes()
+                except socket.error:
+                    connected = False
+                    videoFrame = backupCam.get_frame()
+                    print("client disconnected")
 
 @app.before_request
 def before_request():
