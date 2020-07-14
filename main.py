@@ -107,9 +107,8 @@ users = [User(id=1, username='admin', password='pass')]
 def gen():
     while True:
         try:
-            frame = videoFrame
             yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+                   b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
         except:
             return ''
 
