@@ -1,4 +1,0 @@
-
-
-install heroku buildpack:
-https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-apt
