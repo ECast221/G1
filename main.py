@@ -5,14 +5,14 @@ import os
 
 import pickle, socket, struct, threading
 
-
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
 backupCam = VideoCamera()
 videoFrame = backupCam.get_frame()
 connected = False
-PORT = int(os.environ.get('PORT'))
 
+# PORT = int(os.environ.get('PORT'))    # HEROKU
+PORT=8089                               # LOCAL
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -113,4 +113,6 @@ if __name__ == '__main__':
     t = threading.Thread(target=socket_listener, args=())
     t.daemon = True
     t.start()
-    app.run(host="0.0.0.0", port=PORT)
+    app.run()                            # Use this to run locally
+    # app.run(host="0.0.0.0", port=PORT)  # Use this to run on Heroku
+
