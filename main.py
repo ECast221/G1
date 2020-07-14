@@ -87,6 +87,7 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
+    return ''
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
