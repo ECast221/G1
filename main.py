@@ -11,8 +11,8 @@ backupCam = VideoCamera()
 videoFrame = backupCam.get_frame()
 connected = False
 
-PORT = int(os.environ.get('PORT'))    # HEROKU
-# PORT=8089                               # LOCAL
+# PORT = int(os.environ.get('PORT'))    # HEROKU
+PORT=8089                               # LOCAL
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -113,6 +113,6 @@ if __name__ == '__main__':
     t = threading.Thread(target=socket_listener, args=())
     t.daemon = True
     t.start()
-    # app.run()                            # Use this to run locally
-    app.run(host="0.0.0.0", port=PORT)  # Use this to run on Heroku
+    app.run()                            # Use this to run locally
+    # app.run(host="0.0.0.0", port=PORT)  # Use this to run on Heroku
 
