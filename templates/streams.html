@@ -25,36 +25,23 @@
           </span>
         </div>
        </div>
-  <script>
-      var port = location.port;
-      var portlocal = 8089;
-      var url = location.host;
-      var arr = url.split(":");
+       <button onclick="send()">click</button>
 
-      const socket = new WebSocket('wss://'+ arr[0] + ':' + port);
+  <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf-8">
+    var socket = io();
+    socket.on('connect', function() {
+        socket.emit('my event', {data: 'I\'m connected!'});
 
-        socket.onopen = function(event) {
-                  // Web Socket is connected, send data using send()
-
-                  socket.send("Message to send");
-                  console.log("sent");
-                  alert("Message is sent...");
-               };
-
-        socket.addEventListener('open', function (event) {
-            console.log("sent");
-            socket.send('Hello Server!');
-         });
-
-        // Listen for messages
-        socket.addEventListener('message', function (event) {
-            console.log('Message from server ', event.data);
+        socket.on('my response', data => {
+            console.log(data);
         });
+    });
 
-        socket.onmessage = function(event) {
-          console.log("WebSocket message received:", event);
-        };
+    let send = () => {
+        socket.emit('msg');
+    }
 
-  </script>
+</script>
   </body>
 </html>

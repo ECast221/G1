@@ -1,12 +1,16 @@
 from flask import Flask, request, session, render_template, g, Response
 from camera import VideoCamera
+from flask_socketio import SocketIO, emit, send
 import cv2
 import os
 
 import pickle, socket, struct, threading
 
 app = Flask(__name__, static_folder='static')
+socketio = SocketIO(app)
 app.secret_key = 'secretkey'
+
+
 backupCam = VideoCamera()
 videoFrame = backupCam.get_frame()
 connected = False
@@ -113,10 +117,19 @@ def gen():
                    b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
 
 
+@socketio.on('connect')
+def test_connect():
+    emit('my response', {'data': 'Connected'})
+
+@socketio.on('msg')
+def test_connect():
+    emit('my response', {'data': 'hello'})
+
 if __name__ == '__main__':
-    t = threading.Thread(target=socket_listener, args=())
-    t.daemon = True
-    t.start()
-    app.run()                            # Use this to run locally
+    # t = threading.Thread(target=socket_listener, args=())
+    # t.daemon = True
+    # t.start()
+    # app.run()                            # Use this to run locally
     # app.run(host="0.0.0.0", port=PORT)  # Use this to run on Heroku
+    socketio.run(app)
 
