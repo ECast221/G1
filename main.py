@@ -122,8 +122,11 @@ def test_connect():
     emit('my response', {'data': 'Connected'})
 
 @socketio.on('msg')
-def test_connect():
-    emit('my response', {'data': 'hello'})
+def test_connect(message):
+    print("Client messages")
+    emit('response msg', "Hello")
+
+
 
 if __name__ == '__main__':
     # t = threading.Thread(target=socket_listener, args=())
