@@ -87,6 +87,7 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
+    return ''
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
@@ -105,14 +106,13 @@ users = [User(id=1, username='admin', password='pass')]
 
 
 def gen():
-    return ''
-    # while True:
-    #     yield (b'--frame\r\n'
-    #                b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
+    while True:
+        yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
 
 
 if __name__ == '__main__':
-    # t = threading.Thread(target=socket_listener, args=())
-    # t.daemon = True
-    # t.start()
+    t = threading.Thread(target=socket_listener, args=())
+    t.daemon = True
+    t.start()
     app.run(host="0.0.0.0", port=PORT)
