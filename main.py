@@ -11,7 +11,7 @@ app.secret_key = 'secretkey'
 backupCam = VideoCamera()
 videoFrame = backupCam.get_frame()
 connected = False
-
+PORT = int(os.environ.get("PORT", 8089))
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -33,7 +33,6 @@ def index():
 def socket_listener():
     global videoFrame, connected
     HOST = '0.0.0.0'
-    PORT = int(os.environ.get("PORT"),8089)
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print('Socket created')
@@ -119,4 +118,4 @@ if __name__ == '__main__':
     t = threading.Thread(target=socket_listener, args=())
     t.daemon = True
     t.start()
-    app.run()
+    app.run(host="0.0.0.0", port=PORT)
