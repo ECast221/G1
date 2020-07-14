@@ -35,6 +35,7 @@ def socket_listener():
     global videoFrame, connected
     HOST = '0.0.0.0'
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     print('Socket created')
     s.bind((HOST, PORT))
     print('Socket bind complete')
@@ -44,6 +45,8 @@ def socket_listener():
         print('Socket now listening')
         conn, addr = s.accept()
         with conn:
+            temp_message = "hi from server"
+            s.send(temp_message.encode())
             connected = True
             print('Connected by', addr)
             data = b''
@@ -51,25 +54,26 @@ def socket_listener():
 
             while connected:
                 try:
+                    s.send(temp_message.encode())
                     # Retrieve message size
-                    while len(data) < payload_size:
-                        data += conn.recv(4096)
-
-                    packed_msg_size = data[:payload_size]
-                    data = data[payload_size:]
-                    msg_size = struct.unpack("L", packed_msg_size)[0]  # CHANGED
-
-                    # Retrieve all data based on message size
-                    while len(data) < msg_size:
-                        data += conn.recv(4096)
-
-                    frame_data = data[:msg_size]
-                    data = data[msg_size:]
-
-                    # Extract frame
-                    frame = pickle.loads(frame_data)
-                    ret, jpeg = cv2.imencode('.jpg', frame)
-                    videoFrame = jpeg.tobytes()
+                    # while len(data) < payload_size:
+                    #     data += conn.recv(4096)
+                    #
+                    # packed_msg_size = data[:payload_size]
+                    # data = data[payload_size:]
+                    # msg_size = struct.unpack("L", packed_msg_size)[0]  # CHANGED
+                    #
+                    # # Retrieve all data based on message size
+                    # while len(data) < msg_size:
+                    #     data += conn.recv(4096)
+                    #
+                    # frame_data = data[:msg_size]
+                    # data = data[msg_size:]
+                    #
+                    # # Extract frame
+                    # frame = pickle.loads(frame_data)
+                    # ret, jpeg = cv2.imencode('.jpg', frame)
+                    # videoFrame = jpeg.tobytes()
                 except socket.error:
                     connected = False
                     videoFrame = backupCam.get_frame()

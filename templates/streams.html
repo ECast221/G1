@@ -51,6 +51,10 @@
             console.log('Message from server ', event.data);
         });
 
+        socket.onmessage = function(event) {
+          console.log("WebSocket message received:", event);
+        };
+
   </script>
   </body>
 </html>
