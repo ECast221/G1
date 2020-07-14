@@ -54,7 +54,7 @@ def socket_listener():
                 try:
                     # Retrieve message size
                     while len(data) < payload_size:
-                        data += conn.recv(8192)
+                        data += conn.recv(4096)
 
                     packed_msg_size = data[:payload_size]
                     data = data[payload_size:]
@@ -62,15 +62,15 @@ def socket_listener():
 
                     # Retrieve all data based on message size
                     while len(data) < msg_size:
-                        data += conn.recv(8192)
+                        data += conn.recv(4096)
 
                     frame_data = data[:msg_size]
                     data = data[msg_size:]
 
                     # Extract frame
-                    frame = pickle.loads(frame_data)
-                    ret, jpeg = cv2.imencode('.jpg', frame)
-                    videoFrame = jpeg.tobytes()
+                    # frame = pickle.loads(frame_data)
+                    # ret, jpeg = cv2.imencode('.jpg', frame)
+                    # videoFrame = jpeg.tobytes()
                 except socket.error:
                     connected = False
                     videoFrame = backupCam.get_frame()
