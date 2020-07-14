@@ -26,7 +26,9 @@
         </div>
        </div>
   <script>
-      const socket = new WebSocket('ws://localhost:3000');
+      var a = location.port;
+      const socket = new WebSocket('ws://https://cnt-ecv3.herokuapp.com:'+a);
+      console.log(socket);
 
   </script>
   </body>
