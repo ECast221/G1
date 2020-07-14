@@ -105,9 +105,10 @@ users = [User(id=1, username='admin', password='pass')]
 
 
 def gen():
-    while True:
-        yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
+    return ''
+    # while True:
+    #     yield (b'--frame\r\n'
+    #                b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
 
 
 if __name__ == '__main__':
