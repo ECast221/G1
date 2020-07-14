@@ -11,7 +11,7 @@ app.secret_key = 'secretkey'
 backupCam = VideoCamera()
 videoFrame = backupCam.get_frame()
 connected = False
-PORT = int(os.environ.get('PORT')
+PORT = int(os.environ.get('PORT'))
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -119,4 +119,4 @@ if __name__ == '__main__':
     t = threading.Thread(target=socket_listener, args=())
     t.daemon = True
     t.start()
-    app.run(host="0.0.0.0", port=PORT)
+    app.run()
