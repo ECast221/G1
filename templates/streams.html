@@ -28,20 +28,6 @@
        <button onclick="send()">click</button>
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
-<script type="text/javascript" charset="utf-8">
 
-    var socket = io.connect('https://' + document.domain + ':' + location.port);
-
-    socket.on('connect', function() {
-           socket.on('my response', data => {
-            console.log(data);
-        });
-    });
-
-    let send = () => {
-        socket.emit('msg', {data: 'I\'m connected!'});
-    }
-
-</script>
   </body>
 </html>
