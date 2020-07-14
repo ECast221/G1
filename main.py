@@ -11,7 +11,7 @@ app.secret_key = 'secretkey'
 backupCam = VideoCamera()
 videoFrame = backupCam.get_frame()
 connected = False
-PORT = int(os.environ.get("PORT", 8089))
+PORT = int(os.environ.get('PORT')
 
 @app.route('/', methods=['GET','POST'])
 def index():
