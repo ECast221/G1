@@ -1,4 +1,4 @@
-from flask import *
+from flask import Flask, request, session, render_template, g
 from camera import VideoCamera
 import cv2
 import os
