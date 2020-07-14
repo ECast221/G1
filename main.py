@@ -7,7 +7,10 @@ import pickle, socket, struct, threading
 
 app = Flask(__name__, static_folder='static')
 app.secret_key = 'secretkey'
-videoFrame = None
+backupCam = VideoCamera()
+videoFrame = backupCam.get_frame()
+connected = False
+
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -27,7 +30,7 @@ def index():
 
 
 def socket_listener():
-    global videoFrame
+    global videoFrame, connected
     HOST = '0.0.0.0'
     PORT = 8089
     while True:
@@ -45,6 +48,7 @@ def socket_listener():
             print('Connected by', addr)
             data = b''
             payload_size = struct.calcsize("L")  # CHANGED
+
 
             while connected:
                 try:
@@ -70,7 +74,7 @@ def socket_listener():
                 except socket.error:
                     s.close()
                     connected = False
-                    videoFrame = None
+                    videoFrame = backupCam.get_frame()
                     print("client disconnected")
 
 @app.before_request
