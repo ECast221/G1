@@ -33,11 +33,11 @@ def index():
 def socket_listener():
     global videoFrame, connected
     HOST = '0.0.0.0'
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    print('Socket created')
+    s.bind((HOST, PORT))
+    print('Socket bind complete')
     while True:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        print('Socket created')
-        s.bind((HOST, PORT))
-        print('Socket bind complete')
         connected = False
         s.listen(10)
         print('Socket now listening')
@@ -71,7 +71,6 @@ def socket_listener():
                     ret, jpeg = cv2.imencode('.jpg', frame)
                     videoFrame = jpeg.tobytes()
                 except socket.error:
-                    s.close()
                     connected = False
                     videoFrame = backupCam.get_frame()
                     print("client disconnected")
