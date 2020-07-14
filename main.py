@@ -1,6 +1,7 @@
 from flask import *
 from camera import VideoCamera
 import cv2
+import os
 
 import pickle, socket, struct, threading
 
@@ -32,7 +33,7 @@ def index():
 def socket_listener():
     global videoFrame, connected
     HOST = '0.0.0.0'
-    PORT = 8089
+    PORT = int(os.environ.get("PORT"),8089)
     while True:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print('Socket created')
@@ -41,7 +42,6 @@ def socket_listener():
         connected = False
         s.listen(10)
         print('Socket now listening')
-
         conn, addr = s.accept()
         with conn:
             connected = True
