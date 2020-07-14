@@ -65,12 +65,12 @@ def socket_listener():
 
                     # Extract frame
                     frame = pickle.loads(frame_data)
-                    # cv2.imshow('frame', frame)
-                    # cv2.waitKey(1)
-                    # videoFrame = cv2.imencode('.jpg', frame)
+                    ret, jpeg = cv2.imencode('.jpg', frame)
+                    videoFrame = jpeg.tobytes()
                 except socket.error:
                     s.close()
                     connected = False
+                    videoFrame = None
                     print("client disconnected")
 
 @app.before_request
@@ -84,11 +84,8 @@ def before_request():
 
 @app.route('/video_feed')
 def video_feed():
-    # if videoFrame is not None:
-        return Response(gen(VideoCamera()),
-                mimetype='multipart/x-mixed-replace; boundary=frame')
-    # else:
-    #     return ''
+    return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
 
 
 class User:
@@ -104,11 +101,14 @@ class User:
 users = [User(id=1, username='admin', password='pass')]
 
 
-def gen(camera):
+def gen():
     while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        try:
+            frame = videoFrame
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+        except:
+            return ''
 
 
 if __name__ == '__main__':
