@@ -34,8 +34,8 @@
         var socket = io.connect();
 
         socket.on('connect', function() {
-               socket.on('my response', data => {
-                console.log(data);
+               socket.on('response msg', data => {
+                console.log("Server says: " + data);
             });
         });
 
