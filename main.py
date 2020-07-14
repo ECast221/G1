@@ -106,15 +106,12 @@ users = [User(id=1, username='admin', password='pass')]
 
 def gen():
     while True:
-        try:
-            yield (b'--frame\r\n'
+        yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + videoFrame + b'\r\n\r\n')
-        except:
-            return ''
 
 
 if __name__ == '__main__':
-    t = threading.Thread(target=socket_listener, args=())
-    t.daemon = True
-    t.start()
+    # t = threading.Thread(target=socket_listener, args=())
+    # t.daemon = True
+    # t.start()
     app.run(host="0.0.0.0", port=PORT)
